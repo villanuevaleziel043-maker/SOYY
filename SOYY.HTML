@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWEET SLICE | Heavenly Handcrafted Cakes</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES & RESET --- */
+        :root {
+            --primary: #ff6b81;
+            --secondary: #ffa502;
+            --accent: #70a1ff;
+            --dark: #2f3542;
+            --light: #ffffff;
+            --bg-gradient: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Dynamic Background Animation */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background shapes */
+        .bg-bubbles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .bg-bubbles li {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            bottom: -160px;
+            border-radius: 50%;
+            animation: square 25s infinite linear;
+        }
+        .bg-bubbles li:nth-child(1){ left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(2){ left: 20%; animation-delay: 2s; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(3){ left: 25%; animation-delay: 4s; }
+        .bg-bubbles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-duration: 18s; }
+        .bg-bubbles li:nth-child(5){ left: 70%; width: 120px; height: 120px; }
+
+        @keyframes square {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 20%; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* --- LOGIN / SIGN UP MODAL OVERLAY --- */
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none; /* Naka-hide muna sa simula */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .login-box h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .auth-tab-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .auth-tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .login-box button[type="submit"] {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .login-box button[type="submit"]:hover {
+            background: #ff4757;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            gap: 0.8rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-welcome {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .cart-icon-btn {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.1rem;
+            background: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .cart-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 7px;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
+        .login-trigger-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .login-trigger-btn:hover {
+            background: #ff4757;
+        }
+
+        .logout-btn {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: none; /* Nakatago kapag guest pa */
+        }
+
+        .logout-btn:hover {
+            background: #ff4757;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            width: 100%;
+            justify-content: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            background-color: var(--primary);
+            color: var(--light);
+        }
+
+        /* --- MAIN CONTAINER & TABS --- */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HOME CAROUSEL (MOVING PICTURES) --- */
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            height: 380px;
+            margin: 0 auto 2.5rem auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+
+        .carousel-slide {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem 1.5rem 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .carousel-caption h3 {
+            font-size: 1.8rem;
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 0.3rem;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--dark);
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 25px;
+            border-radius: 10px;
+        }
+
+        /* HERO BANNER */
+        .hero {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(5px);
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-cta {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            background: #ff4757;
+        }
+
+        /* --- GRID & CARDS --- */
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cake-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .cake-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .cake-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        /* HOME SPECIFIC CARDS (CLICKABLE) */
+        .home-card {
+            cursor: pointer;
+        }
+
+        .home-card:hover .cake-title {
+            color: var(--primary);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        .badge-bestseller { background: #ff4757; }
+        .badge-promo { background: #2ed573; }
+
+        .cake-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .cake-info {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .cake-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .cake-desc {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .cake-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cake-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #aaa;
+            font-size: 0.85rem;
+            margin-right: 5px;
+        }
+
+        .add-cart-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-cart-btn:hover {
+            background: #eccc68;
+        }
+
+        .click-hint {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        /* --- CART & CHECKOUT STYLE --- */
+        .cart-wrapper, .history-wrapper, .contact-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .qty-btn {
+            background: #ddd;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .checkout-form, .contact-form-grid {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .payment-qr {
+            display: none;
+            text-align: center;
+            background: #f1f2f6;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .payment-qr img {
+            width: 150px;
+            border-radius: 10px;
+        }
+
+        /* --- PURCHASE HISTORY STYLE --- */
+        .history-card {
+            border: 1px solid #eee;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- CONTACT US STYLE --- */
+        .contact-info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .contact-item i {
+            font-size: 1.3rem;
+            color: var(--primary);
+            width: 30px;
+            text-align: center;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 768px) {
+            .top-bar { flex-direction: column; gap: 1rem; }
+            .nav-links { flex-wrap: wrap; }
+            .checkout-form, .contact-form-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .carousel-container { height: 250px; }
+            .cart-table th, .cart-table td { padding: 0.5rem; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Dynamic Background Bubbles -->
+    <ul class="bg-bubbles">
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+
+    <!-- LOG IN / SIGN UP MODAL OVERLAY (Lilitaw lang kapag pinindot ang Add to Cart nang walang account) -->
+    <div class="login-overlay" id="login-modal">
+        <div class="login-box">
+            <button class="close-modal-btn" onclick="closeLoginModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Sweet Slice 🍰</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">Kailangan momunang mag-log in o mag-sign up para makapag-add sa cart o umorder!</p>
+            
+            <!-- Auth Switch Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="btn-tab-login" onclick="switchAuthTab('login')">Log In</button>
+                <button class="auth-tab-btn" id="btn-tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <input type="text" id="login-username" placeholder="Username / Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log In</button>
+            </form>
+
+            <!-- SIGN UP FORM -->
+            <form id="signup-form" style="display: none;" onsubmit="handleSignUp(event)">
+                <input type="text" id="signup-name" placeholder="Full Name" required>
+                <input type="email" id="signup-email" placeholder="Email Address" required>
+                <input type="password" id="signup-password" placeholder="Create Password" required>
+                <button type="submit" style="background: var(--secondary);"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NAVBAR HEADER -->
+    <header>
+        <nav class="navbar">
+            <div class="top-bar">
+                <a href="#" class="logo" onclick="switchTab('home')"><i class="fa-solid fa-cake-candles"></i> Sweet Slice</a>
+                
+                <div class="header-actions">
+                    <span class="user-welcome" id="user-display">Hi, Guest!</span>
+
+                    <!-- CART BUTTON -->
+                    <div class="cart-icon-btn" onclick="switchTab('cart')">
+                        <i class="fa-solid fa-cart-shopping"></i> Cart
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </div>
+
+                    <!-- MANUAL LOGIN & LOG OUT BUTTONS -->
+                    <button class="login-trigger-btn" id="manual-login-btn" onclick="openLoginModal()">Log In</button>
+                    <button class="logout-btn" id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                </div>
+            </div>
+
+            <!-- MAIN TABS -->
+            <ul class="nav-links">
+                <li><a id="nav-home" class="active" onclick="switchTab('home')">Home</a></li>
+                <li><a id="nav-menu" onclick="switchTab('menu')">Menu</a></li>
+                <li><a id="nav-history" onclick="switchTab('history')">History</a></li>
+                <li><a id="nav-about" onclick="switchTab('about')">About Us</a></li>
+                <li><a id="nav-contact" onclick="switchTab('contact')">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main>
+
+        <!-- TAB 1: HOME SECTION -->
+        <section id="tab-home" class="tab-content active">
+            
+            <!-- MOVING PICTURES SLIDER / CAROUSEL -->
+            <div class="carousel-container">
+                <div class="carousel-slide" id="carousel-slide">
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1000" alt="Dark Chocolate Fudge">
+                        <div class="carousel-caption">
+                            <h3>Dark Chocolate Fudge</h3>
+                            <p>Rich and moist dark chocolate cake layered with fudge.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=1000" alt="Fresh Strawberry Shortcake">
+                        <div class="carousel-caption">
+                            <h3>Fresh Strawberry Shortcake</h3>
+                            <p>Fluffy sponge cake loaded with Baguio fresh strawberries.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=1000" alt="Blueberry Cheesecake">
+                        <div class="carousel-caption">
+                            <h3>Blueberry Cheesecake</h3>
+                            <p>New York style baked cheesecake with blueberry topping.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-btn prev" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="carousel-btn next" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+
+                <div class="carousel-dots">
+                    <span class="dot active" onclick="currentSlide(0)"></span>
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                </div>
+            </div>
+
+            <div class="hero">
+                <h1>A Little Slice of Heaven! 🍰</h1>
+                <p>Nalalasap ang tamis at pagmamahal sa bawat kagat. Bawat flavor ay gawa mula sa pinakasariwang ingredients!</p>
+                <button class="btn-cta" onclick="switchTab('menu')">Order Now</button>
+            </div>
+
+            <!-- Home Best Sellers -->
+            <h2 style="text-align: center; margin-bottom: 0.5rem;">🔥 Best Sellers Today</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">(Click any product to view in Menu and order)</p>
+            <div class="cake-grid" id="home-bestsellers-grid"></div>
+
+            <!-- Home Promos -->
+            <h2 style="text-align: center; margin: 3rem 0 0.5rem 0;">🏷️ Special Promos & Discounts</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">(Click any product to view in Menu and order)</p>
+            <div class="cake-grid" id="home-promos-grid"></div>
+        </section>
+
+        <!-- TAB 2: MENU SECTION (Has Add to Cart) -->
+        <section id="tab-menu" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 0.5rem;">Our Delightful Cake & Pastry Collection</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 1.5rem;">Pumili sa mahigit 50 kakaiba at masasarap na paninda!</p>
+            
+            <div class="category-filters">
+                <button class="filter-btn active" onclick="filterCakes('all', this)">All Items (50+)</button>
+                <button class="filter-btn" onclick="filterCakes('bestseller', this)">🔥 Best Sellers</button>
+                <button class="filter-btn" onclick="filterCakes('promo', this)">🏷️ Promos</button>
+                <button class="filter-btn" onclick="filterCakes('chocolate', this)">Chocolate</button>
+                <button class="filter-btn" onclick="filterCakes('fruity', this)">Fruity & Fresh</button>
+                <button class="filter-btn" onclick="filterCakes('specialty', this)">Filipino Specialty</button>
+                <button class="filter-btn" onclick="filterCakes('cheesecake', this)">Cheesecakes</button>
+            </div>
+
+            <div class="cake-grid" id="full-menu-grid"></div>
+        </section>
+
+        <!-- TAB 3: CART & CHECKOUT SECTION -->
+        <section id="tab-cart" class="tab-content">
+            <div class="cart-wrapper">
+                <h2><i class="fa-solid fa-basket-shopping"></i> Your Shopping Cart</h2>
+                <br>
+                <div id="cart-items-container"></div>
+
+                <div id="checkout-section-wrapper" style="display:none;">
+                    <hr style="margin: 2rem 0;">
+                    <h3>Complete Your Order</h3>
+                    <form class="checkout-form" id="checkout-form" onsubmit="handleCheckout(event)">
+                        <div>
+                            <div class="form-group">
+                                <label>Full Name:</label>
+                                <input type="text" id="cust-name" required placeholder="Juan Dela Cruz">
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Number:</label>
+                                <input type="tel" id="cust-phone" required placeholder="09123456789">
+                            </div>
+                            <div class="form-group">
+                                <label>Delivery Address:</label>
+                                <textarea id="cust-address" rows="3" required placeholder="Complete Home Address"></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-group">
+                                <label>Payment Method:</label>
+                                <select id="payment-method" onchange="togglePaymentDetails()" required>
+                                    <option value="cod">Cash on Delivery (COD)</option>
+                                    <option value="gcash">GCash</option>
+                                </select>
+                            </div>
+
+                            <div id="gcash-box" class="payment-qr">
+                                <p><strong>Scan QR Code or send to 0917-888-9999</strong></p>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=GCash-SweetSlice-09178889999" alt="GCash QR">
+                                <div class="form-group" style="margin-top:0.5rem;">
+                                    <input type="text" id="gcash-ref" placeholder="Enter GCash Reference No.">
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1.5rem; text-align: right;">
+                                <h3 id="cart-grand-total">Total: ₱0</h3>
+                                <button type="submit" class="btn-cta" style="width: 100%; margin-top: 1rem;">Place Order Now</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PURCHASE HISTORY SECTION -->
+        <section id="tab-history" class="tab-content">
+            <div class="history-wrapper">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Your Purchase History</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">Listahan ng lahat ng paborito mong na-order na cakes!</p>
+                <div id="history-list"></div>
+            </div>
+        </section>
+
+        <!-- TAB 5: ABOUT US SECTION -->
+        <section id="tab-about" class="tab-content">
+            <div class="hero">
+                <h2>About SWEET SLICE 🍰</h2>
+                <p style="margin-top: 1rem;">Nagsimula sa simpleng pangarap na magdala ng tamis at ngiti sa bawat tahanan. Ang <strong>Sweet Slice</strong> ay nagbibigay ng pinakamasasarap at kakaibang timpla ng mga cakes at pastries na angkop sa bawat okasyon!</p>
+            </div>
+        </section>
+
+        <!-- TAB 6: CONTACT US SECTION -->
+        <section id="tab-contact" class="tab-content">
+            <div class="contact-wrapper">
+                <h2><i class="fa-solid fa-envelope"></i> Contact Us</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">May katanungan o special custom cake request? Sumulat o tumawag sa amin!</p>
+
+                <div class="contact-form-grid">
+                    <div class="contact-info-card">
+                        <h3>Get in Touch</h3>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <strong>Main Bakery Hub:</strong><br>
+                                123 Sweet Street, Barangay Delight, Quezon City, Metro Manila
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <div>
+                                <strong>Hotline:</strong><br>
+                                (02) 8123-4567 / +63 917 888 9999
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div>
+                                <strong>Email Support:</strong><br>
+                                hello@sweetslice.ph
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <strong>Store Hours:</strong><br>
+                                Mon - Sun: 8:00 AM - 9:00 PM
+                            </div>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label>Your Name:</label>
+                            <input type="text" placeholder="Juan Dela Cruz" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address:</label>
+                            <input type="email" placeholder="juan@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject:</label>
+                            <input type="text" placeholder="Inquiry / Custom Cake Request" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message:</label>
+                            <textarea rows="4" placeholder="Isulat ang iyong mensahe rito..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-cta" style="width:100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 <strong>SWEET SLICE</strong>. All Rights Reserved. Baked with ❤️</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // PRODUCTS DATA (52 ITEMS)
+        const products = [
+            { id: 1, name: "Dark Chocolate Fudge", price: 799, oldPrice: 850, category: "chocolate", isBest: true, isPromo: true, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500", desc: "Rich and moist dark chocolate cake layered with fudge." },
+            { id: 2, name: "Red Velvet Supreme", price: 920, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=500", desc: "Classic red velvet with silky cream cheese frosting." },
+            { id: 3, name: "Fresh Strawberry Shortcake", price: 899, oldPrice: 980, category: "fruity", isBest: true, isPromo: true, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Fluffy sponge cake loaded with Baguio fresh strawberries." },
+            { id: 4, name: "Classic Ube Halaya Cake", price: 790, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=500", desc: "Authentic purple yam cake topped with creamy halaya." },
+            { id: 5, name: "Mango Graham Deluxe", price: 699, oldPrice: 750, category: "fruity", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500", desc: "Sweet Guimaras mangoes layered with graham and cream." },
+            { id: 6, name: "Triple Choco Truffle", price: 990, category: "chocolate", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500", desc: "Decadent blend of milk, dark, and white chocolate layers." },
+            { id: 7, name: "Matcha Green Tea Cake", price: 890, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500", desc: "Premium Japanese green tea infused cake layers." },
+            { id: 8, name: "Caramel Macchiato Cake", price: 799, oldPrice: 860, category: "specialty", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500", desc: "Espresso sponge cake with luscious salt caramel drip." },
+            { id: 9, name: "Blueberry Cheesecake", price: 1050, category: "cheesecake", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500", desc: "New York style baked cheesecake with blueberry topping." },
+            { id: 10, name: "Black Forest Classic", price: 880, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500", desc: "Chocolate cake infused with cherries and whipped cream." },
+            { id: 11, name: "Leche Flan Cake", price: 750, oldPrice: 820, category: "specialty", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500", desc: "Soft chiffon cake topped with rich golden leche flan." },
+            { id: 12, name: "Lemon Sunburst Cake", price: 780, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=500", desc: "Refreshing citrus lemon cake with sweet glaze." },
+            { id: 13, name: "New York Cheesecake", price: 950, category: "cheesecake", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=500", desc: "Dense and rich traditional NY cheesecake." },
+            { id: 14, name: "Mango Passionfruit Cake", price: 890, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1582293041079-7814c2f12063?w=500", desc: "Tropical mango with tangy passionfruit buttercream." },
+            { id: 15, name: "Salted Caramel Walnut Cake", price: 920, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=500", desc: "Crunchy toasted walnuts with rich salted caramel." },
+            { id: 16, name: "Pandan Macapuno Bliss", price: 780, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=500", desc: "Aromatic pandan chiffon filled with sweet macapuno." },
+            { id: 17, name: "Basque Burnt Cheesecake", price: 999, oldPrice: 1100, category: "cheesecake", isBest: true, isPromo: true, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500", desc: "Creamy center with a caramelized burnt top finish." },
+            { id: 18, name: "Nutella Hazelnut Cake", price: 980, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500", desc: "Layered chocolate cake smothered in Nutella frosting." },
+            { id: 19, name: "Strawberry Cheesecake", price: 990, category: "cheesecake", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Creamy cheesecake topped with homemade strawberry jam." },
+            { id: 20, name: "Coffee Mocha Mousse Cake", price: 830, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500", desc: "Silky coffee mousse layered with rich chocolate sponge." },
+            { id: 21, name: "Rainbow Layer Cake", price: 890, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=500", desc: "Colorful multi-layer vanilla cake with buttercream." },
+            { id: 22, name: "Oreo Cookies 'N Cream", price: 799, oldPrice: 850, category: "chocolate", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500", desc: "Packed with real Oreo cookie bits and white cream." },
+            { id: 23, name: "Peach Mango Sponge", price: 820, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500", desc: "Light sponge filled with sweet peaches and mango slices." },
+            { id: 24, name: "Biscoff Cookie Butter Cake", price: 990, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=500", desc: "Decadent Lotus Biscoff spread and cookie crumbs." },
+            { id: 25, name: "White Chocolate Raspberry", price: 940, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Sweet white chocolate paired with tart raspberry sauce." },
+            { id: 26, name: "Tiramisu Classic", price: 890, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500", desc: "Italian dessert cake soaked in espresso and mascarpone." },
+            { id: 27, name: "Banana Salted Caramel", price: 760, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500", desc: "Moist banana cake with rich caramel frosting." },
+            { id: 28, name: "Coconut Cream Layer Cake", price: 790, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500", desc: "Soft cake coated in fresh grated coconut and cream." },
+            { id: 29, name: "Choco Lava Molten Cake", price: 699, oldPrice: 790, category: "chocolate", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500", desc: "Rich chocolate cake with a warm ooey-gooey chocolate center." },
+            { id: 30, name: "Avocado Cream Cake", price: 850, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=500", desc: "Creamy fresh avocado blended into light sponge layers." },
+            { id: 31, name: "Pistachio Delight", price: 1050, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500", desc: "Real toasted pistachios folded into delicate buttercream." },
+            { id: 32, name: "German Chocolate Cake", price: 890, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500", desc: "Chocolate cake layered with coconut-pecan frosting." },
+            { id: 33, name: "Carrot Walnut Cake", price: 830, category: "specialty", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500", desc: "Spiced carrot cake with crunchy walnuts and cream cheese." },
+            { id: 34, name: "Cherry Vanilla Supreme", price: 790, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Vanilla cake filled with sweet dark red cherries." },
+            { id: 35, name: "Dulce de Leche Cake", price: 820, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500", desc: "Rich caramel dulce de leche layered between white chiffon." },
+            { id: 36, name: "Matcha Red Bean Cake", price: 920, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500", desc: "Green tea cake combined with sweet Japanese red bean." },
+            { id: 37, name: "Fudge Brownie Overload", price: 750, oldPrice: 850, category: "chocolate", isBest: true, isPromo: true, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500", desc: "Fudgy brownie base topped with chocolate ganache." },
+            { id: 38, name: "Kiwi Fruit Tart Cake", price: 840, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=500", desc: "Fresh kiwi slices over custard cream and light sponge." },
+            { id: 39, name: "Matcha Cheesecake", price: 1020, category: "cheesecake", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500", desc: "Smooth baked cheesecake infused with green tea powder." },
+            { id: 40, name: "Choco Banana Crunch", price: 780, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500", desc: "Chocolate cake layered with ripe bananas and chocolate chips." },
+            { id: 41, name: "Classic Vanilla Bean", price: 720, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=500", desc: "Pure Madagascar vanilla bean whipped buttercream." },
+            { id: 42, name: "Orange Blossom Cake", price: 770, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519340333755-56e9c1d04579?w=500", desc: "Zesty orange infused cake with light citrus cream." },
+            { id: 43, name: "Ube Macapuno Cheesecake", price: 1080, category: "cheesecake", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=500", desc: "Filipino fusion: baked ube cheesecake with coconut strips." },
+            { id: 44, name: "S'mores Chocolate Cake", price: 860, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500", desc: "Graham crust, dark chocolate cake, and toasted marshmallow." },
+            { id: 45, name: "Pandan Sansrival Cake", price: 890, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500", desc: "Crispy cashew meringue layers with pandan buttercream." },
+            { id: 46, name: "Mixed Berry Chiffon", price: 880, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Strawberries, blueberries, and raspberries in light cream." },
+            { id: 47, name: "Choco Mint Crunch", price: 810, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500", desc: "Refreshing mint buttercream with dark chocolate cake." },
+            { id: 48, name: "Japanese Cotton Cheesecake", price: 850, category: "cheesecake", isBest: true, isPromo: false, img: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=500", desc: "Ultra soft, jiggly, and melt-in-your-mouth soufflé cheesecake." },
+            { id: 49, name: "Kahlua Coffee Fudge", price: 920, category: "specialty", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1519869325930-281384150729?w=500", desc: "Coffee infused cake layered with rich dark chocolate fudge." },
+            { id: 50, name: "Pineapple Upside Down", price: 740, category: "fruity", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500", desc: "Caramelized pineapple rings baked over butter cake." },
+            { id: 51, name: "Choco Peanut Butter Cup", price: 890, category: "chocolate", isBest: false, isPromo: false, img: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500", desc: "Rich peanut butter frosting with fudge chocolate cake." },
+            { id: 52, name: "Lychee Rose Petal Cake", price: 899, oldPrice: 980, category: "fruity", isBest: false, isPromo: true, img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500", desc: "Fragrant rose tea cake with juicy lychee fruit filling." }
+        ];
+
+        let cart = [];
+        let purchaseHistory = JSON.parse(localStorage.getItem('sweet_slice_history')) || [];
+        let currentSlideIndex = 0;
+        let slideInterval;
+
+        // AUTH TAB SWITCHING
+        function switchAuthTab(type) {
+            if (type === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('signup-form').style.display = 'none';
+                document.getElementById('btn-tab-login').classList.add('active');
+                document.getElementById('btn-tab-signup').classList.remove('active');
+            } else {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('signup-form').style.display = 'block';
+                document.getElementById('btn-tab-signup').classList.add('active');
+                document.getElementById('btn-tab-login').classList.remove('active');
+            }
+        }
+
+        // MODAL CONTROLS
+        function openLoginModal() {
+            document.getElementById('login-modal').style.display = 'flex';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+        }
+
+        // LOGIN / SIGNUP / LOGOUT LOGIC
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            localStorage.setItem('sweet_slice_user', username);
+            checkUserSession();
+            closeLoginModal();
+        }
+
+        function handleSignUp(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            localStorage.setItem('sweet_slice_user', name);
+            alert("Account created successfully!");
+            checkUserSession();
+            closeLoginModal();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('sweet_slice_user');
+            localStorage.removeItem('sweet_slice_history');
+            purchaseHistory = [];
+            cart = [];
+            updateCartBadge();
+            checkUserSession();
+            switchTab('home');
+        }
+
+        function checkUserSession() {
+            const user = localStorage.getItem('sweet_slice_user');
+            if (user) {
+                document.getElementById('user-display').innerText = `Hi, ${user}!`;
+                document.getElementById('manual-login-btn').style.display = 'none';
+                document.getElementById('logout-btn').style.display = 'inline-block';
+            } else {
+                document.getElementById('user-display').innerText = 'Hi, Guest!';
+                document.getElementById('manual-login-btn').style.display = 'inline-block';
+                document.getElementById('logout-btn').style.display = 'none';
+            }
+        }
+
+        // CAROUSEL LOGIC (MOVING PICTURES)
+        function initCarousel() {
+            showSlide(currentSlideIndex);
+            startSlideShow();
+        }
+
+        function showSlide(index) {
+            const slide = document.getElementById('carousel-slide');
+            const dots = document.querySelectorAll('.dot');
+            const totalSlides = document.querySelectorAll('.carousel-item').length;
+
+            if (index >= totalSlides) currentSlideIndex = 0;
+            else if (index < 0) currentSlideIndex = totalSlides - 1;
+            else currentSlideIndex = index;
+
+            slide.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlideIndex);
+            });
+        }
+
+        function moveSlide(step) {
+            stopSlideShow();
+            showSlide(currentSlideIndex + step);
+            startSlideShow();
+        }
+
+        function currentSlide(index) {
+            stopSlideShow();
+            showSlide(index);
+            startSlideShow();
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                showSlide(currentSlideIndex + 1);
+            }, 3500);
+        }
+
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        // TAB NAVIGATION
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            if (tabName === 'cart') renderCart();
+            if (tabName === 'history') renderHistory();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // CREATE HOME CARD HTML
+        function createHomeCard(cake) {
+            let badgeHTML = '';
+            if (cake.isBest) badgeHTML += `<span class="badge badge-bestseller">🔥 BEST SELLER</span>`;
+            else if (cake.isPromo) badgeHTML += `<span class="badge badge-promo">🏷️ PROMO</span>`;
+
+            let priceHTML = cake.isPromo 
+                ? `<span class="original-price">₱${cake.oldPrice}</span><span class="cake-price">₱${cake.price}</span>` 
+                : `<span class="cake-price">₱${cake.price}</span>`;
+
+            return `
+                <div class="cake-card home-card" onclick="switchTab('menu')">
+                    ${badgeHTML}
+                    <img src="${cake.img}" alt="${cake.name}" class="cake-img">
+                    <div class="cake-info">
+                        <h3 class="cake-title">${cake.name}</h3>
+                        <p class="cake-desc">${cake.desc}</p>
+                        <div class="cake-bottom">
+                            <div>${priceHTML}</div>
+                        </div>
+                        <div class="click-hint"><i class="fa-solid fa-arrow-right"></i> View in Menu</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // CREATE MENU CARD HTML
+        function createMenuCard(cake) {
+            let badgeHTML = '';
+            if (cake.isBest) badgeHTML += `<span class="badge badge-bestseller">🔥 BEST SELLER</span>`;
+            else if (cake.isPromo) badgeHTML += `<span class="badge badge-promo">🏷️ PROMO</span>`;
+
+            let priceHTML = cake.isPromo 
+                ? `<span class="original-price">₱${cake.oldPrice}</span><span class="cake-price">₱${cake.price}</span>` 
+                : `<span class="cake-price">₱${cake.price}</span>`;
+
+            return `
+                <div class="cake-card" data-category="${cake.category}" data-bestseller="${cake.isBest}" data-promo="${cake.isPromo}">
+                    ${badgeHTML}
+                    <img src="${cake.img}" alt="${cake.name}" class="cake-img">
+                    <div class="cake-info">
+                        <h3 class="cake-title">${cake.name}</h3>
+                        <p class="cake-desc">${cake.desc}</p>
+                        <div class="cake-bottom">
+                            <div>${priceHTML}</div>
+                            <button class="add-cart-btn" onclick="addToCart(${cake.id})"><i class="fa-solid fa-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // RENDER PRODUCTS
+        function renderProducts() {
+            const menuGrid = document.getElementById('full-menu-grid');
+            const homeBestGrid = document.getElementById('home-bestsellers-grid');
+            const homePromosGrid = document.getElementById('home-promos-grid');
+
+            menuGrid.innerHTML = '';
+            homeBestGrid.innerHTML = '';
+            homePromosGrid.innerHTML = '';
+
+            products.forEach(cake => {
+                menuGrid.innerHTML += createMenuCard(cake);
+                if (cake.isBest) homeBestGrid.innerHTML += createHomeCard(cake);
+                if (cake.isPromo) homePromosGrid.innerHTML += createHomeCard(cake);
+            });
+        }
+
+        // FILTER PRODUCTS (MENU TAB)
+        function filterCakes(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('#full-menu-grid .cake-card');
+            cards.forEach(card => {
+                const isBest = card.dataset.bestseller === 'true';
+                const isPromo = card.dataset.promo === 'true';
+
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else if (category === 'bestseller' && isBest) {
+                    card.style.display = 'flex';
+                } else if (category === 'promo' && isPromo) {
+                    card.style.display = 'flex';
+                } else if (card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // CART MANAGEMENT (Lalabas ang login prompt kung guest pa)
+        function addToCart(productId) {
+            const user = localStorage.getItem('sweet_slice_user');
+            if (!user) {
+                openLoginModal(); // Magse-trigger ang pop-up dito kung walang user session
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartBadge();
+            alert(`Added "${product.name}" to your cart! 🍰`);
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').innerText = totalItems;
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartBadge();
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const checkoutBox = document.getElementById('checkout-section-wrapper');
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#888;">Walang laman ang cart mo. Pumili muna ng masasarap na cakes sa Menu!</p>`;
+                checkoutBox.style.display = 'none';
+                return;
+            }
+
+            let total = 0;
+            let tableHTML = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Cake</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            cart.forEach(item => {
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                tableHTML += `
+                    <tr>
+                        <td><strong>${item.name}</strong></td>
+                        <td>₱${item.price}</td>
+                        <td>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span style="margin: 0 8px;">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </td>
+                        <td>₱${subtotal}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            document.getElementById('cart-grand-total').innerText = `Total Amount: ₱${total}`;
+            checkoutBox.style.display = 'block';
+        }
+
+        function togglePaymentDetails() {
+            const method = document.getElementById('payment-method').value;
+            const gcashBox = document.getElementById('gcash-box');
+            gcashBox.style.display = method === 'gcash' ? 'block' : 'none';
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const payment = document.getElementById('payment-method').value;
+            const gcashRef = document.getElementById('gcash-ref').value;
+
+            if (payment === 'gcash' && !gcashRef) {
+                alert('Paki-lagay po ang GCash Reference Number!');
+                return;
+            }
+
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            const orderData = {
+                id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+                date: new Date().toLocaleString(),
+                customer: name,
+                items: [...cart],
+                total: totalAmount,
+                paymentMethod: payment.toUpperCase(),
+                refNo: gcashRef || 'N/A'
+            };
+
+            purchaseHistory.unshift(orderData);
+            localStorage.setItem('sweet_slice_history', JSON.stringify(purchaseHistory));
+
+            cart = [];
+            updateCartBadge();
+            document.getElementById('checkout-form').reset();
+
+            alert(`Maraming Salamat, ${name}! Nakuha na namin ang order mo. Order ID: ${orderData.id}`);
+            switchTab('history');
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list');
+
+            if (purchaseHistory.length === 0) {
+                container.innerHTML = `<p style="color:#888;">Wala ka pang nakaraang order.</p>`;
+                return;
+            }
+
+            let historyHTML = '';
+            purchaseHistory.forEach(order => {
+                let itemsList = order.items.map(i => `${i.name} (x${i.qty})`).join(', ');
+
+                historyHTML += `
+                    <div class="history-card">
+                        <div class="history-header">
+                            <span>Order #${order.id}</span>
+                            <span style="color:var(--primary);">₱${order.total}</span>
+                        </div>
+                        <p style="font-size: 0.9rem;"><strong>Petsa:</strong> ${order.date}</p>
+                        <p style="font-size: 0.9rem;"><strong>Mga In-order:</strong> ${itemsList}</p>
+                        <p style="font-size: 0.9rem;"><strong>Manner of Payment:</strong> ${order.paymentMethod} ${order.refNo !== 'N/A' ? '(Ref: ' + order.refNo + ')' : ''}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = historyHTML;
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert("Maraming salamat sa iyong mensahe! Tutugunan namin ito sa lalong madaling panahon. 🍰");
+            e.target.reset();
+        }
+
+        // INITIALIZE EVERYTHING ON LOAD
+        window.onload = function() {
+            checkUserSession();
+            renderProducts();
+            initCarousel();
+        };
+    </script>
+</body>
+</html>
